@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "bungleware",
+  "version": "${version}",
+  "name": "Bungleware",
+  "description": "Formerly Jungleware.",
+  "authors": [
+    "IHM"
+  ],
+  "contact": {
+    "homepage": "https://jungleware.top",
+    "sources": "https://github.com/factrick45/bungleware"
+  },
+  "license": "AGPL-3.0-or-later",
+  "icon": "assets/bungleware/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "ihm.bungleware.Bungleware"
+    ]
+  },
+  "mixins": [
+    "bungleware.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.19",
+    "minecraft": "1.8.9"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
