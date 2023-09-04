@@ -36,7 +36,6 @@ public class ImGuiImplGl2 {
             GL_TEXTURE_2D, 0, GL_RGBA, width.get(), height.get(), 0, GL_RGBA,
             GL_UNSIGNED_BYTE, image
         );
-
         io.getFonts().setTexID(tex);
     }
 
@@ -77,16 +76,12 @@ public class ImGuiImplGl2 {
         int fbHeight =
             (int)(drawData.getDisplaySizeY() * drawData.getFramebufferScaleY());
 
-        setupRenderState(
-            fbWidth,
-            fbHeight
-        );
-
         float clipoffx = drawData.getDisplayPosX();
         float clipoffy = drawData.getDisplayPosY();
         float clipscalex = drawData.getFramebufferScaleX();
         float clipscaley = drawData.getFramebufferScaleY();
 
+        setupRenderState(fbWidth, fbHeight);
         drawData.deIndexAllBuffers();
 
         for (int i = 0; i < drawData.getCmdListsCount(); i++) {
@@ -117,8 +112,7 @@ public class ImGuiImplGl2 {
                 int vtxcount = drawData.getCmdListCmdBufferElemCount(i, j);
 
                 glBindTexture(GL_TEXTURE_2D, tex);
-                glDrawArrays(
-                    GL_TRIANGLES, vtxoff, vtxcount);
+                glDrawArrays(GL_TRIANGLES, vtxoff, vtxcount);
 
                 vtxoff += vtxcount;
             }

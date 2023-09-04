@@ -44,6 +44,10 @@ public class Modules {
         }
     }
 
+    public static Category[] getCategories() {
+        return categories.toArray(new Category[0]);
+    }
+
     public static Module getModule(String name) {
         return forFirstCriteria(mod -> {return mod.getName() == name;});
     }
@@ -54,8 +58,6 @@ public class Modules {
         initialized = true;
 
         categories.add(new Visual());
-
-        System.out.println(getModule("ESP").getName());
     }
 
     public static void onGameJoin() {
