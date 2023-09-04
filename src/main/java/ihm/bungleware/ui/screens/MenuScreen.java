@@ -6,7 +6,6 @@ import ihm.bungleware.module.Modules;
 
 import imgui.ImGui;
 import imgui.flag.ImGuiCond;
-import imgui.type.ImBoolean;
 
 public class MenuScreen extends ImGuiScreen {
     public static final MenuScreen INSTANCE = new MenuScreen();
@@ -23,6 +22,8 @@ public class MenuScreen extends ImGuiScreen {
         for (var mod : cat) {
             if (ImGui.selectable(mod.getName(), mod.isEnabled()))
                 mod.toggle();
+            if (ImGui.isItemHovered())
+                ImGui.setTooltip(mod.getDesc());
             if (ImGui.isItemHovered() && ImGui.isMouseClicked(1))
                 settingsModule = mod;
         }
@@ -44,6 +45,11 @@ public class MenuScreen extends ImGuiScreen {
             return;
         }
         ImGui.text(mod.getName());
+        for (var set : mod.getSettings()) {
+            set.render();
+            if (ImGui.isItemHovered() && set.getDesc() != null)
+                ImGui.setTooltip(set.getDesc());
+        }
 
         ImGui.end();
     }

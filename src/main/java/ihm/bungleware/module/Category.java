@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /** Container used to collect and initialize modules. */
-public class Category implements Iterable<Module> {
+public abstract class Category implements Iterable<Module> {
     private List<Module> modules = new ArrayList<>();
     private String name;
 

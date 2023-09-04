@@ -1,17 +1,41 @@
 package ihm.bungleware.module;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ihm.bungleware.setting.Setting;
 import ihm.bungleware.utils.Utils;
 
-public class Module {
+public abstract class Module {
     private boolean enabled = false;
     private String name;
+    private String desc;
+    private List<Setting> settings = new ArrayList<>();
 
-    protected Module(String name) {
+    protected Module(String name, String desc) {
         this.name = name;
+        this.desc = desc;
+    }
+
+    protected void addSetting(Setting set) {
+        settings.add(set);
+    }
+
+    protected void addSettings(Setting... sets) {
+        for (var set : sets)
+            settings.add(set);
+    }
+
+    public Setting[] getSettings() {
+        return settings.toArray(new Setting[0]);
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getDesc() {
+        return desc;
     }
 
     public boolean isEnabled() {

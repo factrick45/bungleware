@@ -7,7 +7,7 @@ import ihm.bungleware.ui.imgui.ImGuiClient;
 import ihm.bungleware.ui.imgui.ImGuiLoader;
 
 /** A screen that renders ImGui elements when shown */
-public class ImGuiScreen extends Screen implements ImGuiClient {
+public abstract class ImGuiScreen extends Screen implements ImGuiClient {
     protected ImGuiScreen() {
         super();
         ImGuiLoader.register(this);
