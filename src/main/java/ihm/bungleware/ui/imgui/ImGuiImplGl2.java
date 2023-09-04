@@ -15,7 +15,7 @@ public class ImGuiImplGl2 {
 
     public void init() {
         var io = ImGui.getIO();
-        io.setBackendRendererName("imgui_java_impl_opengl2");
+        io.setBackendRendererName("bungleware_opengl2");
     }
 
     public void newFrame() {
@@ -87,15 +87,17 @@ public class ImGuiImplGl2 {
         float clipscalex = drawData.getFramebufferScaleX();
         float clipscaley = drawData.getFramebufferScaleY();
 
+        drawData.deIndexAllBuffers();
+
         for (int i = 0; i < drawData.getCmdListsCount(); i++) {
             ByteBuffer vtxbuffer = drawData.getCmdListVtxBufferData(i);
-            ByteBuffer idxbuffer = drawData.getCmdListIdxBufferData(i);
 
             int stride = ImDrawData.sizeOfImDrawVert();
             glVertexPointer(2, GL_FLOAT, stride, vtxbuffer.position(0));
             glTexCoordPointer(2, GL_FLOAT, stride, vtxbuffer.position(8));
             glColorPointer(4, GL_UNSIGNED_BYTE, stride, vtxbuffer.position(16));
 
+            int vtxoff = 0;
             for (int j = 0; j < drawData.getCmdListCmdBufferSize(i); j++) {
                 var cr = drawData.getCmdListCmdBufferClipRect(i, j);
                 float c1x = (cr.x - clipoffx) * clipscalex;
@@ -111,47 +113,14 @@ public class ImGuiImplGl2 {
                     (int)(c2x - c1x), (int)(c2y - c1y)
                 );
 
-                // hightlight clipping rectangles
-                /*
-                glBegin(GL_TRIANGLES);
-                glColor3f(1.0f, 0.0f, 0.0f);
-                glVertex3f(c1x, c1y, 0.0f);
-                glColor3f(0.0f, 1.0f, 0.0f);
-                glVertex3f(c1x, c2y, 0.0f);
-                glColor3f(0.0f, 0.0f, 1.0f);
-                glVertex3f(c2x, c1y, 0.0f);
-
-                glColor3f(0.0f, 1.0f, 1.0f);
-                glVertex3f(c2x, c2y, 0.0f);
-                glColor3f(0.0f, 0.0f, 1.0f);
-                glVertex3f(c2x, c1y, 0.0f);
-                glColor3f(0.0f, 1.0f, 0.0f);
-                glVertex3f(c1x, c2y, 0.0f);
-                glEnd();
-                */
-
                 int tex = drawData.getCmdListCmdBufferTextureId(i, j);
-                int elemc = drawData.getCmdListCmdBufferElemCount(i, j);
-                int idxoff =
-                    ImDrawData.sizeOfImDrawIdx() * // might be wrong
-                    drawData.getCmdListCmdBufferIdxOffset(i, j);
-                int type = ImDrawData.sizeOfImDrawIdx() == 2 ?
-                    GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
-
-                /*
-                idxbuffer.position(idxoff);
-                for (int ii = 0; ii < elemc; ii += 2) {
-                    System.out.println(idxbuffer.getShort());
-                }
-                ihm.chuckware.utils.Utils.breakingBad(false);
-                */
-
-                //ihm.chuckware.utils.Utils.breakingBad(false);
+                int vtxcount = drawData.getCmdListCmdBufferElemCount(i, j);
 
                 glBindTexture(GL_TEXTURE_2D, tex);
-                glDrawElements(
-                    GL_TRIANGLES, elemc, type, idxbuffer.position(idxoff)
-                );
+                glDrawArrays(
+                    GL_TRIANGLES, vtxoff, vtxcount);
+
+                vtxoff += vtxcount;
             }
         }
 

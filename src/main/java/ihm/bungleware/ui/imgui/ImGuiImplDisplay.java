@@ -13,7 +13,7 @@ public final class ImGuiImplDisplay {
 
     public void init() {
         var io = ImGui.getIO();
-        io.setBackendPlatformName("imgui_java_lwjgl2_display");
+        io.setBackendPlatformName("bungleware_lwjgl2_display");
     }
 
     public void newFrame() {
