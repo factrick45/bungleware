@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
+
+import net.minecraft.client.MinecraftClient;
 
 import ihm.bungleware.module.visual.Visual;
 import ihm.bungleware.utils.Utils;
@@ -20,10 +23,10 @@ public class Modules {
      * Return the first module that when applied to by filter returns true,
      * or return null if not applicable.
      */
-    public static Module forFirstCriteria(Function<Module, Boolean> filter) {
+    public static Module forFirstCriteria(Predicate<Module> filter) {
         for (var cat : categories) {
             for (var mod : cat) {
-                if (filter.apply(mod))
+                if (filter.test(mod))
                     return mod;
             }
         }
@@ -65,6 +68,8 @@ public class Modules {
     }
 
     public static void onTick() {
+        if (MinecraftClient.getInstance().isPaused())
+            return;
         forEachEnabled(mod -> {mod.onTick();});
     }
 }

@@ -1,5 +1,6 @@
 package ihm.bungleware.ui.screens;
 
+import ihm.bungleware.Bungleware;
 import ihm.bungleware.module.Category;
 import ihm.bungleware.module.Module;
 import ihm.bungleware.module.Modules;
@@ -20,8 +21,10 @@ public class MenuScreen extends ImGuiScreen {
             return;
         }
         for (var mod : cat) {
-            if (ImGui.selectable(mod.getName(), mod.isEnabled()))
+            if (ImGui.selectable(mod.getName(), mod.isEnabled())) {
                 mod.toggle();
+                Bungleware.INSTANCE.save();
+            }
             if (ImGui.isItemHovered())
                 ImGui.setTooltip(mod.getDesc());
             if (ImGui.isItemHovered() && ImGui.isMouseClicked(1))
@@ -32,7 +35,7 @@ public class MenuScreen extends ImGuiScreen {
 
     private void settingsWindow(int x, int y) {
         ImGui.setNextWindowPos(x, y, ImGuiCond.FirstUseEver);
-        ImGui.setNextWindowSize(200.0f, 0.0f);
+        ImGui.setNextWindowSize(100.0f, 0.0f);
         if (!ImGui.begin("Settings", 0)) {
             ImGui.end();
             return;
@@ -56,7 +59,7 @@ public class MenuScreen extends ImGuiScreen {
 
     @Override
     public void renderGui() {
-        //ImGui.showDemoWindow();
+        // ImGui.showDemoWindow();
         int xoff = 10;
         for (var cat : Modules.getCategories()) {
             categoryWindow(cat, xoff, 10);

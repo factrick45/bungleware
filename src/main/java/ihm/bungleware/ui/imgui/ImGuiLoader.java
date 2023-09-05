@@ -3,8 +3,6 @@ package ihm.bungleware.ui.imgui;
 import java.util.List;
 import java.util.ArrayList;
 
-import net.minecraft.client.MinecraftClient;
-
 import imgui.ImGui;
 import imgui.ImGuiIO;
 
