@@ -65,8 +65,10 @@ public class Save {
                 mod.setEnabled(
                     (tree.get("_enabled").equals("true")) ? true : false
                 );
-                for (var set : mod.getSettings())
-                    set.deserialize(tree.get(set.getName()));
+                for (var set : mod.getSettings()) {
+                    if (tree.get(set.getName()) != null)
+                        set.deserialize(tree.get(set.getName()));
+                }
             }
         }
     }

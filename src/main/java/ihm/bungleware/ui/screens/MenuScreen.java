@@ -7,6 +7,7 @@ import ihm.bungleware.module.Modules;
 
 import imgui.ImGui;
 import imgui.flag.ImGuiCond;
+import imgui.type.ImBoolean;
 
 public class MenuScreen extends ImGuiScreen {
     public static final MenuScreen INSTANCE = new MenuScreen();
@@ -34,26 +35,28 @@ public class MenuScreen extends ImGuiScreen {
     }
 
     private void settingsWindow(int x, int y) {
+        if (settingsModule == null)
+            return;
+        var mod = settingsModule;
+
         ImGui.setNextWindowPos(x, y, ImGuiCond.FirstUseEver);
         ImGui.setNextWindowSize(250.0f, 0.0f);
-        if (!ImGui.begin("Settings", 0)) {
+        var popen = new ImBoolean(true);
+        if (!ImGui.begin(mod.getName() + "###Settings", popen)) {
+            if (!popen.get())
+                settingsModule = null;
             ImGui.end();
             return;
         }
 
-        var mod = settingsModule;
-        if (mod == null) {
-            ImGui.text("None");
-            ImGui.end();
-            return;
-        }
-        ImGui.text(mod.getName());
         for (var set : mod.getSettings()) {
             set.render();
             if (ImGui.isItemHovered() && set.getDesc() != null)
                 ImGui.setTooltip(set.getDesc());
         }
 
+        if (!popen.get())
+            settingsModule = null;
         ImGui.end();
     }
 
