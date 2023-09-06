@@ -15,7 +15,7 @@ public class MenuScreen extends ImGuiScreen {
 
     private void categoryWindow(Category cat, int x, int y) {
         ImGui.setNextWindowPos(x, y, ImGuiCond.FirstUseEver);
-        ImGui.setNextWindowSize(100.0f, 0.0f);
+        ImGui.setNextWindowSize(150.0f, 0.0f);
         if (!ImGui.begin(cat.getName(), 0)) {
             ImGui.end();
             return;
@@ -35,7 +35,7 @@ public class MenuScreen extends ImGuiScreen {
 
     private void settingsWindow(int x, int y) {
         ImGui.setNextWindowPos(x, y, ImGuiCond.FirstUseEver);
-        ImGui.setNextWindowSize(100.0f, 0.0f);
+        ImGui.setNextWindowSize(150.0f, 0.0f);
         if (!ImGui.begin("Settings", 0)) {
             ImGui.end();
             return;
@@ -63,7 +63,7 @@ public class MenuScreen extends ImGuiScreen {
         int xoff = 10;
         for (var cat : Modules.getCategories()) {
             categoryWindow(cat, xoff, 10);
-            xoff += 110;
+            xoff += 160;
         }
         settingsWindow(xoff, 10);
     }

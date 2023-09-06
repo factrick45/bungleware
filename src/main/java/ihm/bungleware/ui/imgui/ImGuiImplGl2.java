@@ -21,14 +21,15 @@ public class ImGuiImplGl2 {
     public void newFrame() {
         if (FontTexture != -1)
             return;
+        System.out.println("NIGGER");
         // generate font texture
         var io = ImGui.getIO();
         var width = new ImInt();
         var height = new ImInt();
         ByteBuffer image = io.getFonts().getTexDataAsRGBA32(width, height);
 
-        int tex = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, tex);
+        FontTexture = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, FontTexture);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
@@ -36,7 +37,7 @@ public class ImGuiImplGl2 {
             GL_TEXTURE_2D, 0, GL_RGBA, width.get(), height.get(), 0, GL_RGBA,
             GL_UNSIGNED_BYTE, image
         );
-        io.getFonts().setTexID(tex);
+        io.getFonts().setTexID(FontTexture);
     }
 
     private void setupRenderState(int fbWidth, int fbHeight) {

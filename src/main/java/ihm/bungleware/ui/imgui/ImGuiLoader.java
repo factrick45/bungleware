@@ -1,8 +1,13 @@
 package ihm.bungleware.ui.imgui;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.ArrayList;
 
+import ihm.bungleware.utils.Utils;
+
+import imgui.ImFontConfig;
 import imgui.ImGui;
 import imgui.ImGuiIO;
 
@@ -23,6 +28,22 @@ public class ImGuiLoader {
         ImGui.createContext();
         ImGuiIO io = ImGui.getIO();
         io.setIniFilename(null);
+
+        var fc = new ImFontConfig();
+        fc.setSizePixels(24);
+        var fa = io.getFonts();
+        fa.clear();
+
+        byte[] ttf;
+        try {
+            ttf = Files.readAllBytes(Utils.getModAssets().resolve("ibm.ttf"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        fa.addFontFromMemoryTTF(ttf, 24.0f, fc);
+        fc.destroy();
+
+        fa.build();
 
         imdisplay.init();
         imgl2.init();
