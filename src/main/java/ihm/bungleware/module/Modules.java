@@ -52,7 +52,7 @@ public class Modules {
     }
 
     public static Module getModule(String name) {
-        return forFirstCriteria(mod -> {return mod.getName() == name;});
+        return forFirstCriteria(mod -> {return mod.getName().equals(name);});
     }
 
     public static void init() {

@@ -21,6 +21,6 @@ public class ClientPlayNetworkHandlerMixin {
 
     @Inject(at = @At("TAIL"), method = "onGameJoin")
     public void onGameJoin(CallbackInfo ci) {
-        Bungleware.INSTANCE.onGameJoin();
+        Bungleware.instance().onGameJoin();
     }
 }

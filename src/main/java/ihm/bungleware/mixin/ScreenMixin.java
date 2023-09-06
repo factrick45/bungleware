@@ -19,10 +19,10 @@ public class ScreenMixin {
     @Inject(at = @At("HEAD"), method = "handleMouse")
     public void onMouse(CallbackInfo ci) {
         if (Mouse.getEventDWheel() != 0)
-            Bungleware.INSTANCE.onMouseWheel(Mouse.getEventDWheel());
+            Bungleware.instance().onMouseWheel(Mouse.getEventDWheel());
         if (Mouse.getEventButton() == -1)
             return;
-        Bungleware.INSTANCE.onMouseButton(
+        Bungleware.instance().onMouseButton(
             Mouse.getEventButton(), Mouse.getEventButtonState()
         );
     }

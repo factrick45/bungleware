@@ -11,8 +11,6 @@ import ihm.bungleware.module.Modules;
  * Saves and loads state from a configuration file. Meant to have a short
  * lifetime. Basic usage involves creating a new instance and calling .save()
  * or .load().
- * Split load and save methods exist to facilitate multi-stage loading during
- * initialization. Calling them alone will not generate valid data.
  */
 public class Save {
     private static final String HEADER =
@@ -27,21 +25,8 @@ public class Save {
     }
 
     public void save() {
-        saveStart();
-        saveModules();
-        saveEnd();
-    }
-
-    public void load() {
-        loadStart();
-        loadModules();
-    }
-
-    public void saveStart() {
         tree = new CfgTree();
-    }
-
-    public void saveEnd() {
+        saveModules();
         try {
             Files.writeString(
                 savefile, HEADER + tree.toString(), CREATE, TRUNCATE_EXISTING
@@ -51,15 +36,16 @@ public class Save {
         }
     }
 
-    public void loadStart() {
+    public void load() {
         try {
             tree = new CfgTree(Files.readString(savefile));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        loadModules();
     }
 
-    public void saveModules() {
+    private void saveModules() {
         for (var cat : Modules.getCategories()) {
             String catsection = "modules." + cat.getName();
             for (var mod : cat) {
@@ -71,7 +57,7 @@ public class Save {
         }
     }
 
-    public void loadModules() {
+    private void loadModules() {
         for (var cat : Modules.getCategories()) {
             String catsection = "modules." + cat.getName();
             for (var mod : cat) {

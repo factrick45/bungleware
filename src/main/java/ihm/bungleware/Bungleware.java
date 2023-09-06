@@ -17,13 +17,17 @@ import net.fabricmc.api.ModInitializer;
 import org.lwjgl.input.Keyboard;
 
 public class Bungleware implements ModInitializer {
-    public static final Bungleware INSTANCE = new Bungleware();
+    private static Bungleware INSTANCE;
 
-    public static Path savefile;
-    public static Path savepath;
+    public Path savefile;
+    public Path savepath;
 
     private MinecraftClient mc = MinecraftClient.getInstance();
     private boolean needsSave = false;
+
+    public static Bungleware instance() {
+        return INSTANCE;
+    }
 
     public void save() {
         needsSave = true;
@@ -31,6 +35,10 @@ public class Bungleware implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        INSTANCE = this;
+
+        Modules.init();
+
         savepath = mc.runDirectory.toPath().resolve("Bungleware").normalize();
         if (!Files.exists(savepath)) {
             try {
@@ -42,19 +50,11 @@ public class Bungleware implements ModInitializer {
         savefile = savepath.resolve("main.cfg");
         var save = new Save(savefile);
         boolean needsdef = !Files.exists(savefile);
-        if (needsdef)
-            save.saveStart();
-        else
-            save.loadStart();
-
-        Modules.init();
-        if (needsdef)
-            save.saveModules();
-        else
-            save.loadModules();
 
         if (needsdef)
-            save.saveEnd();
+            save.save();
+        else
+            save.load();
     }
 
     public void onInitializePost() {

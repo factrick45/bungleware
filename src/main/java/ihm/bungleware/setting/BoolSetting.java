@@ -13,7 +13,7 @@ public class BoolSetting extends AbstractSetting<Boolean> {
     public void render() {
         if (ImGui.checkbox(getName(), getVal())) {
             setVal(!getVal());
-            Bungleware.INSTANCE.save();
+            Bungleware.instance().save();
         }
     }
 

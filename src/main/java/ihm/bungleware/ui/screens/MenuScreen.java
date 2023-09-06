@@ -23,7 +23,7 @@ public class MenuScreen extends ImGuiScreen {
         for (var mod : cat) {
             if (ImGui.selectable(mod.getName(), mod.isEnabled())) {
                 mod.toggle();
-                Bungleware.INSTANCE.save();
+                Bungleware.instance().save();
             }
             if (ImGui.isItemHovered())
                 ImGui.setTooltip(mod.getDesc());

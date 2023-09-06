@@ -18,18 +18,18 @@ public class MinecraftClientMixin {
     public void onKey(CallbackInfo ci) {
         int key = Keyboard.getEventKey() == 0 ?
             Keyboard.getEventCharacter() : Keyboard.getEventKey();
-        Bungleware.INSTANCE.onKey(key, Keyboard.getEventKeyState());
+        Bungleware.instance().onKey(key, Keyboard.getEventKeyState());
     }
 
     /** Fired after Minecraft is confirmed to have a window and rendering context. */
     @Inject(at = @At("TAIL"), method = "initializeGame")
     public void onInitializePost(CallbackInfo ci) {
-        Bungleware.INSTANCE.onInitializePost();
+        Bungleware.instance().onInitializePost();
     }
 
     @Inject(at = @At("HEAD"), method = "tick")
     public void onTick(CallbackInfo ci) {
-        Bungleware.INSTANCE.onTick();
+        Bungleware.instance().onTick();
     }
 
     /**
@@ -46,11 +46,11 @@ public class MinecraftClientMixin {
     )
     public void onMouse(CallbackInfo ci) {
         if (Mouse.getEventDWheel() != 0)
-            Bungleware.INSTANCE.onMouseWheel(Mouse.getEventDWheel());
+            Bungleware.instance().onMouseWheel(Mouse.getEventDWheel());
         // no button is being pressed
         if (Mouse.getEventButton() == -1)
             return;
-        Bungleware.INSTANCE.onMouseButton(
+        Bungleware.instance().onMouseButton(
             Mouse.getEventButton(), Mouse.getEventButtonState()
         );
     }
@@ -64,7 +64,7 @@ public class MinecraftClientMixin {
     public void onRenderPost(CallbackInfo ci) {
         //var mc = (MinecraftClient)(Object)this;
         //mc.profiler.push("bungleware");
-        Bungleware.INSTANCE.onRenderPost();
+        Bungleware.instance().onRenderPost();
         //mc.profiler.pop();
     }
 }
