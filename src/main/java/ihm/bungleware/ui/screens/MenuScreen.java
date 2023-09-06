@@ -35,7 +35,7 @@ public class MenuScreen extends ImGuiScreen {
 
     private void settingsWindow(int x, int y) {
         ImGui.setNextWindowPos(x, y, ImGuiCond.FirstUseEver);
-        ImGui.setNextWindowSize(150.0f, 0.0f);
+        ImGui.setNextWindowSize(250.0f, 0.0f);
         if (!ImGui.begin("Settings", 0)) {
             ImGui.end();
             return;

@@ -21,7 +21,6 @@ public class ImGuiImplGl2 {
     public void newFrame() {
         if (FontTexture != -1)
             return;
-        System.out.println("NIGGER");
         // generate font texture
         var io = ImGui.getIO();
         var width = new ImInt();
