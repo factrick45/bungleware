@@ -8,6 +8,7 @@ public interface Setting {
     public String getName();
     public String getDesc();
     public void render();
+    public boolean shouldSave();
     public String serialize();
     public void deserialize(String string);
 }

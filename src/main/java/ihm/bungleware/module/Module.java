@@ -3,6 +3,7 @@ package ihm.bungleware.module;
 import java.util.ArrayList;
 import java.util.List;
 
+import ihm.bungleware.setting.KeybindSetting;
 import ihm.bungleware.setting.Setting;
 import ihm.bungleware.utils.Utils;
 
@@ -11,6 +12,7 @@ public abstract class Module {
     private String name;
     private String desc;
     private List<Setting> settings = new ArrayList<>();
+    private List<KeybindSetting> binds = new ArrayList<>();
 
     protected Module(String name, String desc) {
         this.name = name;
@@ -19,11 +21,21 @@ public abstract class Module {
 
     protected void addSetting(Setting set) {
         settings.add(set);
+        if (set instanceof KeybindSetting)
+            binds.add((KeybindSetting)set);
     }
 
     protected void addSettings(Setting... sets) {
         for (var set : sets)
-            settings.add(set);
+            addSetting(set);
+    }
+
+    protected void addDefaultBind() {
+        addSetting(new KeybindSetting("Keybind", this, mod -> {mod.toggle();}));
+    }
+
+    public KeybindSetting[] getBinds() {
+        return binds.toArray(new KeybindSetting[0]);
     }
 
     public Setting[] getSettings() {

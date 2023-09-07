@@ -78,4 +78,8 @@ public class ImGuiLoader {
     public static void onMouseWheel(int scrolldelta) {
         imdisplay.onMouseWheel(scrolldelta);
     }
+
+    public static void onKey(int key, boolean pressed) {
+        imdisplay.onKey(key, pressed);
+    }
 }

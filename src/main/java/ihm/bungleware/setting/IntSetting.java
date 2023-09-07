@@ -17,8 +17,14 @@ public class IntSetting extends AbstractSetting<Integer> {
     @Override
     public void render() {
         int[] out = {getVal()};
-        if (ImGui.sliderInt(getName(), out, min, max))
-            setVal(out[0]);
+        if (ImGui.sliderInt(getName(), out, min, max)) {
+            if (out[0] > max)
+                setVal(max);
+            else if (out[0] < min)
+                setVal(min);
+            else
+                setVal(out[0]);
+        }
         if (ImGui.isItemDeactivatedAfterEdit())
             Bungleware.instance().save();
     }

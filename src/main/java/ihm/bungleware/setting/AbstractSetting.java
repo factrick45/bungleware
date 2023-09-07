@@ -34,4 +34,9 @@ public abstract class AbstractSetting<T> implements Setting {
     public void setVal(T val) {
         this.val = val;
     }
+
+    @Override
+    public boolean shouldSave() {
+        return true;
+    }
 }

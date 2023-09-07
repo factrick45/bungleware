@@ -5,7 +5,7 @@ import ihm.bungleware.setting.*;
 
 public class Esp extends Module {
     private BoolSetting test =
-        new BoolSetting("Bool", "Testtttt", false);
+        new BoolSetting("Bool", null, false);
     private IntSetting test2 =
         new IntSetting("Integer", "testy", 5, 0, 10);
     private ColorSetting test3 =
@@ -18,6 +18,7 @@ public class Esp extends Module {
     public Esp() {
         super("ESP", "Extrasensory perception!");
         addSettings(test, test2, test3, test4, test5);
+        addDefaultBind();
     }
 
     @Override

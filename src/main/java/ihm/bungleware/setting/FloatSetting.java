@@ -17,8 +17,14 @@ public class FloatSetting extends AbstractSetting<Float> {
     @Override
     public void render() {
         float[] out = {getVal()};
-        if (ImGui.sliderFloat(getName(), out, min, max))
-            setVal(out[0]);
+        if (ImGui.sliderFloat(getName(), out, min, max)) {
+            if (out[0] > max)
+                setVal(max);
+            else if (out[0] < min)
+                setVal(min);
+            else
+                setVal(out[0]);
+        }
         if (ImGui.isItemDeactivatedAfterEdit())
             Bungleware.instance().save();
     }

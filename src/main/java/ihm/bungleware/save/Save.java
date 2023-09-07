@@ -51,8 +51,10 @@ public class Save {
             for (var mod : cat) {
                 tree.setSection(catsection + "." + mod.getName());
                 tree.put("_enabled", mod.isEnabled() ? "true" : "false");
-                for (var set : mod.getSettings())
-                    tree.put(set.getName(), set.serialize());
+                for (var set : mod.getSettings()) {
+                    if (set.shouldSave())
+                        tree.put(set.getName(), set.serialize());
+                }
             }
         }
     }

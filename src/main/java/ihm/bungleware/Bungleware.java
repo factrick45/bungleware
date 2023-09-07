@@ -82,6 +82,8 @@ public class Bungleware implements ModInitializer {
                 mc.setScreen(MenuScreen.INSTANCE);
             }
         }
+        ImGuiLoader.onKey(key, pressed);
+        Modules.onKey(key, pressed);
     }
 
     public void onRenderPost() {

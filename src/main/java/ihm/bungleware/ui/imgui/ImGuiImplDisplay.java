@@ -3,7 +3,9 @@ package ihm.bungleware.ui.imgui;
 import imgui.ImGui;
 import imgui.flag.ImGuiBackendFlags;
 import imgui.flag.ImGuiMouseButton;
+import imgui.flag.ImGuiKey;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
 /** Implementation of the ImGui platform for lwjgl2. */
@@ -14,6 +16,32 @@ public final class ImGuiImplDisplay {
     public void init() {
         var io = ImGui.getIO();
         io.setBackendPlatformName("bungleware_lwjgl2_display");
+
+        // keyboard
+        var keymap = new int[ImGuiKey.COUNT];
+        keymap[ImGuiKey.Tab] = Keyboard.KEY_TAB;
+        keymap[ImGuiKey.LeftArrow] = Keyboard.KEY_LEFT;
+        keymap[ImGuiKey.RightArrow] = Keyboard.KEY_RIGHT;
+        keymap[ImGuiKey.UpArrow] = Keyboard.KEY_UP;
+        keymap[ImGuiKey.DownArrow] = Keyboard.KEY_DOWN;
+        keymap[ImGuiKey.PageUp] = Keyboard.KEY_PRIOR;
+        keymap[ImGuiKey.PageDown] = Keyboard.KEY_NEXT;
+        keymap[ImGuiKey.Home] = Keyboard.KEY_HOME;
+        keymap[ImGuiKey.End] = Keyboard.KEY_END;
+        keymap[ImGuiKey.Insert] = Keyboard.KEY_INSERT;
+        keymap[ImGuiKey.Delete] = Keyboard.KEY_DELETE;
+        keymap[ImGuiKey.Backspace] = Keyboard.KEY_BACK;
+        keymap[ImGuiKey.Space] = Keyboard.KEY_SPACE;
+        keymap[ImGuiKey.Enter] = Keyboard.KEY_RETURN;
+        keymap[ImGuiKey.Escape] = Keyboard.KEY_ESCAPE;
+        keymap[ImGuiKey.KeyPadEnter] = Keyboard.KEY_NUMPADENTER;
+        keymap[ImGuiKey.A] = Keyboard.KEY_A;
+        keymap[ImGuiKey.C] = Keyboard.KEY_C;
+        keymap[ImGuiKey.V] = Keyboard.KEY_V;
+        keymap[ImGuiKey.X] = Keyboard.KEY_X;
+        keymap[ImGuiKey.Y] = Keyboard.KEY_Y;
+        keymap[ImGuiKey.Z] = Keyboard.KEY_Z;
+        io.setKeyMap(keymap);
     }
 
     public void newFrame() {
@@ -50,5 +78,20 @@ public final class ImGuiImplDisplay {
     public void onMouseWheel(int scrolldelta) {
         var io = ImGui.getIO();
         io.setMouseWheel(io.getMouseWheel() + (float)(scrolldelta / 120));
+    }
+
+    public void onKey(int key, boolean pressed) {
+        var io = ImGui.getIO();
+        io.setKeysDown(key, pressed);
+        io.setKeyCtrl(io.getKeysDown(Keyboard.KEY_LCONTROL) ||
+                      io.getKeysDown(Keyboard.KEY_RCONTROL));
+        io.setKeyShift(io.getKeysDown(Keyboard.KEY_LSHIFT) ||
+                       io.getKeysDown(Keyboard.KEY_RSHIFT));
+        io.setKeyAlt(io.getKeysDown(Keyboard.KEY_LMENU) ||
+                       io.getKeysDown(Keyboard.KEY_RMENU));
+        io.setKeySuper(io.getKeysDown(Keyboard.KEY_LMETA) ||
+                       io.getKeysDown(Keyboard.KEY_RMETA));
+
+        io.addInputCharacter(Keyboard.getEventCharacter());
     }
 }

@@ -34,4 +34,9 @@ public class Utils {
         var mc = MinecraftClient.getInstance();
         return mc != null && mc.world != null && mc.player != null;
     }
+
+    public static boolean isPaused() {
+        return MinecraftClient.getInstance().isPaused();
+    }
+
 }

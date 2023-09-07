@@ -33,6 +33,13 @@ public class Modules {
         return null;
     }
 
+    public static void forEach(Consumer<Module> action) {
+        for (var cat : categories) {
+            for (var mod : cat)
+                action.accept(mod);
+        }
+    }
+
     /**
      * For each module, if in game and enabled, apply action.
      */
@@ -67,8 +74,14 @@ public class Modules {
         forEachEnabled(mod -> {mod.onEnabled();});
     }
 
+    public static void onKey(int key, boolean pressed) {
+        forEach(mod -> {
+                for (var bind : mod.getBinds())
+                    bind.onKey(key, pressed);});
+    }
+
     public static void onTick() {
-        if (MinecraftClient.getInstance().isPaused())
+        if (Utils.isPaused())
             return;
         forEachEnabled(mod -> {mod.onTick();});
     }
