@@ -15,6 +15,12 @@ public class ColorSetting extends AbstractSetting<Integer> {
     }
 
     @Override
+    public void setVal(Integer val) {
+        super.setVal(val);
+        new Color(getVal()).getRGBColorComponents(imColor);
+    }
+
+    @Override
     public void render() {
         if (ImGui.colorEdit3(getName(), imColor))
             setVal(new Color(imColor[0], imColor[1], imColor[2]).getRGB());
@@ -30,6 +36,5 @@ public class ColorSetting extends AbstractSetting<Integer> {
     @Override
     public void deserialize(String string) {
         setVal(Integer.parseUnsignedInt(string, 16));
-        new Color(getVal()).getRGBColorComponents(imColor);
     }
 }
