@@ -72,9 +72,6 @@ public class KeybindSetting extends AbstractSetting<Integer> {
 
                     func.accept(parent, info);
                 }
-                /*if ((pressed || toggleOnRelease) && key == getVal()) {
-                    func.accept(parent);
-                    }*/
             }
             return;
         }
