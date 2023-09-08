@@ -2,6 +2,7 @@ package ihm.bungleware.module;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -33,6 +34,7 @@ public class Modules {
         return null;
     }
 
+    /** For each module, apply action. */
     public static void forEach(Consumer<Module> action) {
         for (var cat : categories) {
             for (var mod : cat)
@@ -40,9 +42,18 @@ public class Modules {
         }
     }
 
-    /**
-     * For each module, if in game and enabled, apply action.
-     */
+    /** Passes the loop index as an additional argument to action. */
+    public static void forEach(BiConsumer<Module, Integer> action) {
+        int i = 0;
+        for (var cat : categories) {
+            for (var mod : cat) {
+                action.accept(mod, i);
+                i++;
+            }
+        }
+    }
+
+    /** For each module, if in game and enabled, apply action. */
     public static void forEachEnabled(Consumer<Module> action) {
         if (!Utils.isInGame())
             return;
@@ -54,10 +65,26 @@ public class Modules {
         }
     }
 
+    /** Passes the loop index as an additional argument to action. */
+    public static void forEachEnabled(BiConsumer<Module, Integer> action) {
+        if (!Utils.isInGame())
+            return;
+        int i = 0;
+        for (var cat : categories) {
+            for (var mod : cat) {
+                if (mod.isEnabled()) {
+                    action.accept(mod, i);
+                    i++;
+                }
+            }
+        }
+    }
+
     public static Category[] getCategories() {
         return categories.toArray(new Category[0]);
     }
 
+    /** Return the module with a given name */
     public static Module getModule(String name) {
         return forFirstCriteria(mod -> {return mod.getName().equals(name);});
     }

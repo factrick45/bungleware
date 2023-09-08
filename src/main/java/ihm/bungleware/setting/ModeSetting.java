@@ -5,6 +5,7 @@ import ihm.bungleware.Bungleware;
 import imgui.ImGui;
 import imgui.type.ImInt;
 
+/** Allows an element from a list of strings to be selected in a drop down. */
 public class ModeSetting extends AbstractSetting<String> {
     private String[] modes;
     private ImInt selection = new ImInt(0);

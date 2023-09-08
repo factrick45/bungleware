@@ -1,5 +1,6 @@
 package ihm.bungleware.setting;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import ihm.bungleware.Bungleware;
@@ -9,19 +10,26 @@ import ihm.bungleware.utils.Utils;
 import imgui.ImGui;
 import org.lwjgl.input.Keyboard;
 
+/** Performs an action when the set key is pressed. */
 public class KeybindSetting extends AbstractSetting<Integer> {
     private boolean binding = false;
     private boolean toggleOnRelease = false;
     private Module parent;
-    private Consumer<Module> func;
+    private BiConsumer<Module, Info> func;
 
-    public KeybindSetting(String name, Module parent, Consumer<Module> func) {
+    public static class Info {
+        public int key;
+        public boolean pressed;
+        public boolean toggleOnRelease;
+    }
+
+    public KeybindSetting(String name, Module parent, BiConsumer<Module, Info> func) {
         super(name, null, 0);
         this.parent = parent;
         this.func = func;
     }
 
-    public KeybindSetting(String name, int defkey, Module parent, Consumer<Module> func) {
+    public KeybindSetting(String name, int defkey, Module parent, BiConsumer<Module, Info> func) {
         super(name, null, defkey);
         this.parent = parent;
         this.func = func;
@@ -51,10 +59,22 @@ public class KeybindSetting extends AbstractSetting<Integer> {
     }
 
     public void onKey(int key, boolean pressed) {
+        if (key == Keyboard.KEY_NONE)
+            return;
+
         if (!binding) {
-            if (Utils.isInGame() && !Utils.isPaused()) {
-                if ((pressed || toggleOnRelease) && key == getVal())
+            if (Utils.isInGame() && !Utils.isPaused() && !Utils.isInScreen()) {
+                if (key == getVal()) {
+                    var info = new Info();
+                    info.key = key;
+                    info.pressed = pressed;
+                    info.toggleOnRelease = toggleOnRelease;
+
+                    func.accept(parent, info);
+                }
+                /*if ((pressed || toggleOnRelease) && key == getVal()) {
                     func.accept(parent);
+                    }*/
             }
             return;
         }

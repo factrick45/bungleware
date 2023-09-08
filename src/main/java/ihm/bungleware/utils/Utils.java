@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 
 import net.fabricmc.loader.api.FabricLoader;
 
+/** General utilities. */
 public class Utils {
     public static void breakingBad(boolean die) {
         if (die)
@@ -35,8 +36,11 @@ public class Utils {
         return mc != null && mc.world != null && mc.player != null;
     }
 
+    public static boolean isInScreen() {
+        return MinecraftClient.getInstance().currentScreen != null;
+    }
+
     public static boolean isPaused() {
         return MinecraftClient.getInstance().isPaused();
     }
-
 }

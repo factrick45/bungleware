@@ -2,6 +2,7 @@ package ihm.bungleware.setting;
 
 import imgui.ImGui;
 
+/** Setting which can be used to draw decorative separators. Stores no value. */
 public class SectionSetting implements Setting {
     private String name;
 

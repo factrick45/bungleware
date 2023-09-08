@@ -6,6 +6,7 @@ import ihm.bungleware.Bungleware;
 
 import imgui.ImGui;
 
+/** Stores a color as RGB in an integer. */
 public class ColorSetting extends AbstractSetting<Integer> {
     private float[] imColor = new float[3];
 

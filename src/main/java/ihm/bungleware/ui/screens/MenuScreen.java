@@ -9,6 +9,7 @@ import imgui.ImGui;
 import imgui.flag.ImGuiCond;
 import imgui.type.ImBoolean;
 
+/** Screen that allows the interactive configuration of modules. */
 public class MenuScreen extends ImGuiScreen {
     public static final MenuScreen INSTANCE = new MenuScreen();
 

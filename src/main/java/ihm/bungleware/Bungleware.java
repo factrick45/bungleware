@@ -10,6 +10,7 @@ import net.minecraft.client.option.KeyBinding;
 
 import ihm.bungleware.module.Modules;
 import ihm.bungleware.save.Save;
+import ihm.bungleware.ui.Hud;
 import ihm.bungleware.ui.imgui.ImGuiLoader;
 import ihm.bungleware.ui.screens.MenuScreen;
 
@@ -59,6 +60,7 @@ public class Bungleware implements ModInitializer {
 
     public void onInitializePost() {
         ImGuiLoader.init();
+        Hud.init();
     }
 
     public void onGameJoin() {

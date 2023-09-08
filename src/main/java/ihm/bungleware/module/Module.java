@@ -31,7 +31,14 @@ public abstract class Module {
     }
 
     protected void addDefaultBind() {
-        addSetting(new KeybindSetting("Keybind", this, mod -> {mod.toggle();}));
+        addSetting(new KeybindSetting("Keybind", this, (mod, info) -> {
+                    if (!info.toggleOnRelease) {
+                        if (info.pressed)
+                            mod.toggle();
+                    } else {
+                        mod.setEnabled(info.pressed);
+                    }
+        }));
     }
 
     public KeybindSetting[] getBinds() {
@@ -67,6 +74,9 @@ public abstract class Module {
     }
 
     public void setEnabled(boolean value) {
+        // prevents onEnabled and onDisabled being called multiple times
+        if (value == enabled)
+            return;
         enabled = value;
         if (Utils.isInGame()) {
             if (enabled)
