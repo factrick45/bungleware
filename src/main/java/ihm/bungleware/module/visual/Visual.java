@@ -6,5 +6,6 @@ public class Visual extends Category {
     public Visual() {
         super("Visual");
         add(new Esp());
+        add(new Zoom());
     }
 }

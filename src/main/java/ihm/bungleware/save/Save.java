@@ -64,6 +64,9 @@ public class Save {
             String catsection = "modules." + cat.getName();
             for (var mod : cat) {
                 tree.setSection(catsection + "." + mod.getName());
+                // This module clearly isn't in the cfg file
+                if (tree.get("_enabled") == null)
+                    continue;
                 mod.setEnabled(
                     (tree.get("_enabled").equals("true")) ? true : false
                 );
