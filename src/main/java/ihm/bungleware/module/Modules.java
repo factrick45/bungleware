@@ -9,6 +9,9 @@ import java.util.function.Predicate;
 
 import net.minecraft.client.MinecraftClient;
 
+import ihm.bungleware.module.combat.Combat;
+import ihm.bungleware.module.misc.Misc;
+import ihm.bungleware.module.movement.Movement;
 import ihm.bungleware.module.visual.Visual;
 import ihm.bungleware.utils.Utils;
 
@@ -94,7 +97,10 @@ public class Modules {
             return;
         initialized = true;
 
+        categories.add(new Combat());
+        categories.add(new Movement());
         categories.add(new Visual());
+        categories.add(new Misc());
     }
 
     public static void onGameJoin() {

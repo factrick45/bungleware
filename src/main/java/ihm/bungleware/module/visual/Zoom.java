@@ -7,7 +7,7 @@ import ihm.bungleware.setting.*;
 
 public class Zoom extends Module {
     private FloatSetting scale =
-        new FloatSetting("Scale", "FOV scale.", 2.0f, 0.1f, 10.0f);
+        new FloatSetting("Scale", "FOV scale", 2.0f, 0.1f, 10.0f);
 
     private float oldFov;
     private float oldSensitivity;
