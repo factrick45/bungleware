@@ -4,6 +4,7 @@ import ihm.bungleware.Bungleware;
 import ihm.bungleware.module.Category;
 import ihm.bungleware.module.Module;
 import ihm.bungleware.module.Modules;
+import ihm.bungleware.setting.Setting;
 
 import imgui.ImGui;
 import imgui.flag.ImGuiCond;
@@ -22,7 +23,7 @@ public class MenuScreen extends ImGuiScreen {
             ImGui.end();
             return;
         }
-        for (var mod : cat) {
+        for (Module mod : cat) {
             if (ImGui.selectable(mod.getName(), mod.isEnabled())) {
                 mod.toggle();
                 Bungleware.instance().save();
@@ -38,11 +39,11 @@ public class MenuScreen extends ImGuiScreen {
     private void settingsWindow(int x, int y) {
         if (settingsModule == null)
             return;
-        var mod = settingsModule;
+        Module mod = settingsModule;
 
         ImGui.setNextWindowPos(x, y, ImGuiCond.FirstUseEver);
         ImGui.setNextWindowSize(250.0f, 0.0f);
-        var popen = new ImBoolean(true);
+        ImBoolean popen = new ImBoolean(true);
         if (!ImGui.begin(mod.getName() + "###Settings", popen)) {
             if (!popen.get())
                 settingsModule = null;
@@ -50,7 +51,7 @@ public class MenuScreen extends ImGuiScreen {
             return;
         }
 
-        for (var set : mod.getSettings()) {
+        for (Setting set : mod.getSettings()) {
             set.render();
             if (ImGui.isItemHovered() && set.getDesc() != null)
                 ImGui.setTooltip(set.getDesc());
@@ -65,7 +66,7 @@ public class MenuScreen extends ImGuiScreen {
     public void renderGui() {
         // ImGui.showDemoWindow();
         int xoff = 10;
-        for (var cat : Modules.getCategories()) {
+        for (Category cat : Modules.getCategories()) {
             categoryWindow(cat, xoff, 10);
             xoff += 160;
         }

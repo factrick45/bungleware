@@ -49,7 +49,7 @@ public class Bungleware implements ModInitializer {
             }
         }
         savefile = savepath.resolve("main.cfg");
-        var save = new Save(savefile);
+        Save save = new Save(savefile);
         boolean needsdef = !Files.exists(savefile);
 
         if (needsdef)

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import ihm.bungleware.utils.Utils;
 
+import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
 import imgui.ImGui;
 import imgui.ImGuiIO;
@@ -29,9 +30,9 @@ public class ImGuiLoader {
         ImGuiIO io = ImGui.getIO();
         io.setIniFilename(null);
 
-        var fc = new ImFontConfig();
+        ImFontConfig fc = new ImFontConfig();
         fc.setSizePixels(24);
-        var fa = io.getFonts();
+        ImFontAtlas fa = io.getFonts();
         fa.clear();
 
         byte[] ttf;

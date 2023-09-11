@@ -1,6 +1,7 @@
 package ihm.bungleware.ui.imgui;
 
 import imgui.ImGui;
+import imgui.ImGuiIO;
 import imgui.flag.ImGuiBackendFlags;
 import imgui.flag.ImGuiMouseButton;
 import imgui.flag.ImGuiKey;
@@ -14,11 +15,11 @@ public final class ImGuiImplDisplay {
     private long time = 0;
 
     public void init() {
-        var io = ImGui.getIO();
+        ImGuiIO io = ImGui.getIO();
         io.setBackendPlatformName("bungleware_lwjgl2_display");
 
         // keyboard
-        var keymap = new int[ImGuiKey.COUNT];
+        int[] keymap = new int[ImGuiKey.COUNT];
         keymap[ImGuiKey.Tab] = Keyboard.KEY_TAB;
         keymap[ImGuiKey.LeftArrow] = Keyboard.KEY_LEFT;
         keymap[ImGuiKey.RightArrow] = Keyboard.KEY_RIGHT;
@@ -45,7 +46,7 @@ public final class ImGuiImplDisplay {
     }
 
     public void newFrame() {
-        var io = ImGui.getIO();
+        ImGuiIO io = ImGui.getIO();
 
         // set display size
         float ww = (float)Display.getWidth();
@@ -76,12 +77,12 @@ public final class ImGuiImplDisplay {
     }
 
     public void onMouseWheel(int scrolldelta) {
-        var io = ImGui.getIO();
+        ImGuiIO io = ImGui.getIO();
         io.setMouseWheel(io.getMouseWheel() + (float)(scrolldelta / 120));
     }
 
     public void onKey(int key, boolean pressed) {
-        var io = ImGui.getIO();
+        ImGuiIO io = ImGui.getIO();
         io.setKeysDown(key, pressed);
         io.setKeyCtrl(io.getKeysDown(Keyboard.KEY_LCONTROL) ||
                       io.getKeysDown(Keyboard.KEY_RCONTROL));

@@ -3,6 +3,7 @@ package ihm.bungleware.utils;
 import java.awt.Color;
 
 import imgui.ImGui;
+import imgui.ImVec2;
 
 /** Utilities used primarily for UI. */
 public class GuiUtils {
@@ -20,7 +21,7 @@ public class GuiUtils {
     }
 
     public static void textShadow(String text) {
-        var pos = ImGui.getCursorPos();
+        ImVec2 pos = ImGui.getCursorPos();
         ImGui.setCursorPos(pos.x + 2.0f, pos.y + 2.0f);
         ImGui.textColored(0, 0, 0, 255, text);
         ImGui.setCursorPos(pos.x, pos.y);
@@ -28,7 +29,7 @@ public class GuiUtils {
     }
 
     public static void textShadow(String text, Color color) {
-        var pos = ImGui.getCursorPos();
+        ImVec2 pos = ImGui.getCursorPos();
         ImGui.setCursorPos(pos.x + 2.0f, pos.y + 2.0f);
         textColored(text, color.darker());
         ImGui.setCursorPos(pos.x, pos.y);

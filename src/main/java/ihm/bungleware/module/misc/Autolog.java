@@ -33,7 +33,7 @@ public class Autolog extends Module {
     }
 
     private String shouldLog() {
-        var mc = MinecraftClient.getInstance();
+        MinecraftClient mc = MinecraftClient.getInstance();
         if (mc.player.getHealth() < minHealth.getVal())
             return "Health (" + (int)mc.player.getHealth() +
                 ") < " + minHealth.getVal();

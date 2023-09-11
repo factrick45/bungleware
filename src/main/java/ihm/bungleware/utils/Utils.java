@@ -32,7 +32,7 @@ public class Utils {
     }
 
     public static boolean isInGame() {
-        var mc = MinecraftClient.getInstance();
+        MinecraftClient mc = MinecraftClient.getInstance();
         return mc != null && mc.world != null && mc.player != null;
     }
 

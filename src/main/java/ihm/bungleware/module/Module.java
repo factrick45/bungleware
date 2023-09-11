@@ -26,7 +26,7 @@ public abstract class Module {
     }
 
     protected void addSettings(Setting... sets) {
-        for (var set : sets)
+        for (Setting set : sets)
             addSetting(set);
     }
 

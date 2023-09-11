@@ -16,7 +16,7 @@ public class MathUtils {
 
     /** Returns lerped position, localized to the player. */
     public static Vec3d getLocalPos(Entity entity, float tickDelta) {
-        var player = MinecraftClient.getInstance().player;
+        Entity player = MinecraftClient.getInstance().player;
         return getLerpPos(entity, tickDelta)
             .subtract(getLerpPos(player, tickDelta));
     }

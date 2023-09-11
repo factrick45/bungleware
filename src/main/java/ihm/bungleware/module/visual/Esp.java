@@ -41,7 +41,7 @@ public class Esp extends Module {
 
     private void renderEntity(Entity entity, float tickDelta) {
         Vec3d lpos = MathUtils.getLocalPos(entity, tickDelta);
-        var tes = Tessellator.getInstance();
+        Tessellator tes = Tessellator.getInstance();
         BufferBuilder bb = tes.getBuffer();
 
         Box box = entity.getBoundingBox();
@@ -114,7 +114,8 @@ public class Esp extends Module {
         GlStateManager.disableTexture();
         GlStateManager.enableBlend();
 
-        for (var ent : MinecraftClient.getInstance().world.getLoadedEntities()) {
+        MinecraftClient mc = MinecraftClient.getInstance();
+        for (Entity ent : mc.world.getLoadedEntities()) {
             if (ent.equals(MinecraftClient.getInstance().player))
                 continue;
             if (playersOnly.getVal() && !(ent instanceof PlayerEntity))

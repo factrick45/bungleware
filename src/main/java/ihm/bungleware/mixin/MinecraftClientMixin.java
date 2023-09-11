@@ -62,7 +62,7 @@ public class MinecraftClientMixin {
      */
     @Inject(at = @At("HEAD"), method = "updateDisplay")
     public void onRenderPost(CallbackInfo ci) {
-        //var mc = (MinecraftClient)(Object)this;
+        //MinecraftClient mc = (MinecraftClient)(Object)this;
         //mc.profiler.push("bungleware");
         Bungleware.instance().onRenderPost();
         //mc.profiler.pop();

@@ -31,13 +31,14 @@ public class CfgTree {
     /** Creates a tree from the provided file data. */
     public CfgTree(String data) {
         this();
-
-        Iterator<String> lines = data.lines().iterator();
-        while(lines.hasNext()) {
-            String line = lines.next();
+        String[] lines = data.split("\n");
+        for (String line : lines)
             parseLine(line);
-        }
         setRoot();
+    }
+
+    public CfgTree(byte[] data) {
+        this(new String(data));
     }
 
     private void parseLine(String line) {
@@ -99,7 +100,7 @@ public class CfgTree {
         Section node = root;
         String[] secs = id.split("\\.");
         Section parent = root;
-        for (var sec : secs) {
+        for (String sec : secs) {
             if (!node.children.containsKey(sec))
                 node.children.put(sec, new Section(sec, parent));
             node = node.children.get(sec);
@@ -114,10 +115,10 @@ public class CfgTree {
     }
 
     private void toStringR(StringBuilder sb, String pwd, Section node) {
-        for (var entry : node.entries.entrySet()) {
+        for (Map.Entry<String, String> entry : node.entries.entrySet()) {
             sb.append(entry.getKey() + ": " + entry.getValue() + "\n");
         }
-        for (var section : node.children.values()) {
+        for (Section section : node.children.values()) {
             sb.append("[" + pwd + section.name + "]\n");
             toStringR(sb, pwd + section.name + ".", section);
         }
@@ -126,7 +127,7 @@ public class CfgTree {
     /** Returns a string which can be interpreted as file data. */
     @Override
     public String toString() {
-        var sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         toStringR(sb, "", root);
         return sb.toString();
     }

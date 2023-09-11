@@ -7,6 +7,7 @@ import ihm.bungleware.utils.GuiUtils;
 import ihm.bungleware.utils.Utils;
 
 import imgui.ImGui;
+import imgui.ImVec2;
 import imgui.flag.ImGuiCond;
 import static imgui.flag.ImGuiWindowFlags.*;
 
@@ -30,8 +31,8 @@ public class Hud implements ImGuiClient {
         int winflags =
             NoBackground | NoDecoration | NoFocusOnAppearing | NoMouseInputs |
             NoNav;
-        var vpos = ImGui.getMainViewport().getPos();
-        var vsize = ImGui.getMainViewport().getSize();
+        ImVec2 vpos = ImGui.getMainViewport().getPos();
+        ImVec2 vsize = ImGui.getMainViewport().getSize();
 
         ImGui.setNextWindowPos(vpos.x, vpos.y, ImGuiCond.Always);
         ImGui.begin("HudWatermark", winflags);

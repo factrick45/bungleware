@@ -13,6 +13,7 @@ import ihm.bungleware.module.combat.Combat;
 import ihm.bungleware.module.misc.Misc;
 import ihm.bungleware.module.movement.Movement;
 import ihm.bungleware.module.visual.Visual;
+import ihm.bungleware.setting.KeybindSetting;
 import ihm.bungleware.utils.Utils;
 
 /**
@@ -28,8 +29,8 @@ public class Modules {
      * or return null if not applicable.
      */
     public static Module forFirstCriteria(Predicate<Module> filter) {
-        for (var cat : categories) {
-            for (var mod : cat) {
+        for (Category cat : categories) {
+            for (Module mod : cat) {
                 if (filter.test(mod))
                     return mod;
             }
@@ -39,8 +40,8 @@ public class Modules {
 
     /** For each module, apply action. */
     public static void forEach(Consumer<Module> action) {
-        for (var cat : categories) {
-            for (var mod : cat)
+        for (Category cat : categories) {
+            for (Module mod : cat)
                 action.accept(mod);
         }
     }
@@ -48,8 +49,8 @@ public class Modules {
     /** Passes the loop index as an additional argument to action. */
     public static void forEach(BiConsumer<Module, Integer> action) {
         int i = 0;
-        for (var cat : categories) {
-            for (var mod : cat) {
+        for (Category cat : categories) {
+            for (Module mod : cat) {
                 action.accept(mod, i);
                 i++;
             }
@@ -60,8 +61,8 @@ public class Modules {
     public static void forEachEnabled(Consumer<Module> action) {
         if (!Utils.isInGame())
             return;
-        for (var cat : categories) {
-            for (var mod : cat) {
+        for (Category cat : categories) {
+            for (Module mod : cat) {
                 if (mod.isEnabled())
                     action.accept(mod);
             }
@@ -73,8 +74,8 @@ public class Modules {
         if (!Utils.isInGame())
             return;
         int i = 0;
-        for (var cat : categories) {
-            for (var mod : cat) {
+        for (Category cat : categories) {
+            for (Module mod : cat) {
                 if (mod.isEnabled()) {
                     action.accept(mod, i);
                     i++;
@@ -109,7 +110,7 @@ public class Modules {
 
     public static void onKey(int key, boolean pressed) {
         forEach(mod -> {
-                for (var bind : mod.getBinds())
+                for (KeybindSetting bind : mod.getBinds())
                     bind.onKey(key, pressed);});
     }
 

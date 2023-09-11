@@ -65,7 +65,7 @@ public class KeybindSetting extends AbstractSetting<Integer> {
         if (!binding) {
             if (Utils.isInGame() && !Utils.isPaused() && !Utils.isInScreen()) {
                 if (key == getVal()) {
-                    var info = new Info();
+                    Info info = new Info();
                     info.key = key;
                     info.pressed = pressed;
                     info.toggleOnRelease = toggleOnRelease;

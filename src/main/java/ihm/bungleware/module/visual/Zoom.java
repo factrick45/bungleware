@@ -1,6 +1,7 @@
 package ihm.bungleware.module.visual;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.GameOptions;
 
 import ihm.bungleware.module.Module;
 import ihm.bungleware.setting.*;
@@ -20,7 +21,7 @@ public class Zoom extends Module {
 
     @Override
     public void onEnabled() {
-        var options = MinecraftClient.getInstance().options;
+        GameOptions options = MinecraftClient.getInstance().options;
         oldFov = options.fov;
         oldSensitivity = options.sensitivity;
 
@@ -30,7 +31,7 @@ public class Zoom extends Module {
 
     @Override
     public void onDisabled() {
-        var options = MinecraftClient.getInstance().options;
+        GameOptions options = MinecraftClient.getInstance().options;
         options.fov = oldFov;
         options.sensitivity = oldSensitivity;
     }

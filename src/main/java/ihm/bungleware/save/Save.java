@@ -5,7 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import static java.nio.file.StandardOpenOption.*;
 
+import ihm.bungleware.module.Category;
+import ihm.bungleware.module.Module;
 import ihm.bungleware.module.Modules;
+import ihm.bungleware.setting.Setting;
 
 /**
  * Saves and loads state from a configuration file. Meant to have a short
@@ -28,8 +31,9 @@ public class Save {
         tree = new CfgTree();
         saveModules();
         try {
-            Files.writeString(
-                savefile, HEADER + tree.toString(), CREATE, TRUNCATE_EXISTING
+            Files.write(
+                savefile, (HEADER + tree.toString()).getBytes(), CREATE,
+                TRUNCATE_EXISTING
             );
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -38,7 +42,7 @@ public class Save {
 
     public void load() {
         try {
-            tree = new CfgTree(Files.readString(savefile));
+            tree = new CfgTree(Files.readAllBytes(savefile));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -46,12 +50,12 @@ public class Save {
     }
 
     private void saveModules() {
-        for (var cat : Modules.getCategories()) {
+        for (Category cat : Modules.getCategories()) {
             String catsection = "modules." + cat.getName();
-            for (var mod : cat) {
+            for (Module mod : cat) {
                 tree.setSection(catsection + "." + mod.getName());
                 tree.put("_enabled", mod.isEnabled() ? "true" : "false");
-                for (var set : mod.getSettings()) {
+                for (Setting set : mod.getSettings()) {
                     if (set.shouldSave())
                         tree.put(set.getName(), set.serialize());
                 }
@@ -60,9 +64,9 @@ public class Save {
     }
 
     private void loadModules() {
-        for (var cat : Modules.getCategories()) {
+        for (Category cat : Modules.getCategories()) {
             String catsection = "modules." + cat.getName();
-            for (var mod : cat) {
+            for (Module mod : cat) {
                 tree.setSection(catsection + "." + mod.getName());
                 // This module clearly isn't in the cfg file
                 if (tree.get("_enabled") == null)
@@ -70,7 +74,7 @@ public class Save {
                 mod.setEnabled(
                     (tree.get("_enabled").equals("true")) ? true : false
                 );
-                for (var set : mod.getSettings()) {
+                for (Setting set : mod.getSettings()) {
                     if (tree.get(set.getName()) != null)
                         set.deserialize(tree.get(set.getName()));
                 }

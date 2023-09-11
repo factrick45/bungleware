@@ -24,7 +24,7 @@ public class BlockMixin {
     ) {
         if (!Modules.getModule("Xray").isEnabled())
             return;
-        var block = view.getBlockState(pos).getBlock();
+        Block block = view.getBlockState(pos).getBlock();
         cir.setReturnValue(false);
     }
 

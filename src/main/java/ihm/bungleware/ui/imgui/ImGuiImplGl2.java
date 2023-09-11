@@ -4,6 +4,8 @@ import java.nio.ByteBuffer;
 
 import imgui.ImDrawData;
 import imgui.ImGui;
+import imgui.ImGuiIO;
+import imgui.ImVec4;
 import imgui.flag.ImGuiBackendFlags;
 import imgui.type.ImInt;
 import static org.lwjgl.opengl.GL11.*;
@@ -14,7 +16,7 @@ public class ImGuiImplGl2 {
     private int FontTexture = -1;
 
     public void init() {
-        var io = ImGui.getIO();
+        ImGuiIO io = ImGui.getIO();
         io.setBackendRendererName("bungleware_opengl2");
     }
 
@@ -22,9 +24,9 @@ public class ImGuiImplGl2 {
         if (FontTexture != -1)
             return;
         // generate font texture
-        var io = ImGui.getIO();
-        var width = new ImInt();
-        var height = new ImInt();
+        ImGuiIO io = ImGui.getIO();
+        ImInt width = new ImInt();
+        ImInt height = new ImInt();
         ByteBuffer image = io.getFonts().getTexDataAsRGBA32(width, height);
 
         FontTexture = glGenTextures();
@@ -88,13 +90,16 @@ public class ImGuiImplGl2 {
             ByteBuffer vtxbuffer = drawData.getCmdListVtxBufferData(i);
 
             int stride = ImDrawData.sizeOfImDrawVert();
-            glVertexPointer(2, GL_FLOAT, stride, vtxbuffer.position(0));
-            glTexCoordPointer(2, GL_FLOAT, stride, vtxbuffer.position(8));
-            glColorPointer(4, GL_UNSIGNED_BYTE, stride, vtxbuffer.position(16));
+            vtxbuffer.position(0);
+            glVertexPointer(2, GL_FLOAT, stride, vtxbuffer);
+            vtxbuffer.position(8);
+            glTexCoordPointer(2, GL_FLOAT, stride, vtxbuffer);
+            vtxbuffer.position(16);
+            glColorPointer(4, GL_UNSIGNED_BYTE, stride, vtxbuffer);
 
             int vtxoff = 0;
             for (int j = 0; j < drawData.getCmdListCmdBufferSize(i); j++) {
-                var cr = drawData.getCmdListCmdBufferClipRect(i, j);
+                ImVec4 cr = drawData.getCmdListCmdBufferClipRect(i, j);
                 float c1x = (cr.x - clipoffx) * clipscalex;
                 float c1y = (cr.y - clipoffy) * clipscaley;
                 float c2x = (cr.z - clipoffx) * clipscalex;

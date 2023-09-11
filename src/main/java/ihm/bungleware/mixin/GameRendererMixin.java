@@ -24,8 +24,8 @@ public class GameRendererMixin {
     public void onRenderWorldPost(
         int anaglyphFilter, float tickDelta, long limitTime, CallbackInfo ci
     ) {
-        var esp = Modules.getModule("ESP");
+        Esp esp = (Esp)Modules.getModule("ESP");
         if (esp.isEnabled())
-            ((Esp)esp).onRenderWorldPost(tickDelta);
+            esp.onRenderWorldPost(tickDelta);
     }
 }
