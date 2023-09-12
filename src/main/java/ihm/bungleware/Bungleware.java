@@ -13,6 +13,7 @@ import ihm.bungleware.save.Save;
 import ihm.bungleware.ui.Hud;
 import ihm.bungleware.ui.imgui.ImGuiLoader;
 import ihm.bungleware.ui.screens.MenuScreen;
+import ihm.bungleware.utils.Inputs;
 
 import net.fabricmc.api.ModInitializer;
 import org.lwjgl.input.Keyboard;
@@ -90,6 +91,10 @@ public class Bungleware implements ModInitializer {
 
     public void onRenderPost() {
         ImGuiLoader.render();
+    }
+
+    public void onTickPre() {
+        Inputs.onTickPre();
     }
 
     public void onTick() {

@@ -13,6 +13,7 @@ public class ModeSetting extends AbstractSetting<String> {
     public ModeSetting(String name, String desc, String def, String... modes) {
         super(name, desc, def);
         this.modes = modes;
+        setVal(def);
     }
 
     @Override

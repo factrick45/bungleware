@@ -9,6 +9,7 @@
         "BlockMixin",
         "ClientPlayNetworkHandlerMixin",
         "GameRendererMixin",
+        "MinecraftClientAccessor",
         "MinecraftClientMixin",
         "ScreenMixin"
   ],

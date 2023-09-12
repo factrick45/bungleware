@@ -28,6 +28,11 @@ public class MinecraftClientMixin {
     }
 
     @Inject(at = @At("HEAD"), method = "tick")
+    public void onTickPre(CallbackInfo ci) {
+        Bungleware.instance().onTickPre();
+    }
+
+    @Inject(at = @At("TAIL"), method = "tick")
     public void onTick(CallbackInfo ci) {
         Bungleware.instance().onTick();
     }
