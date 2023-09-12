@@ -110,7 +110,6 @@ public class Esp extends Module {
 
     public void onRenderWorldPost(float tickDelta) {
         GlStateManager.disableDepthTest();
-        GlStateManager.disableLighting();
         GlStateManager.disableTexture();
         GlStateManager.enableBlend();
 
@@ -125,7 +124,6 @@ public class Esp extends Module {
 
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
         GlStateManager.enableDepthTest();
-        GlStateManager.enableLighting();
         GlStateManager.enableTexture();
         GlStateManager.disableBlend();
     }

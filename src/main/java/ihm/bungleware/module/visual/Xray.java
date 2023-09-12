@@ -7,7 +7,7 @@ import ihm.bungleware.setting.*;
 
 public class Xray extends Module {
     public Xray() {
-        super("Xray", "Make walls translucent.");
+        super("Xray", "Make walls translucent");
         addDefaultBind();
     }
 
