@@ -84,12 +84,17 @@ public class ImGuiImplGl2 {
         float clipscaley = drawData.getFramebufferScaleY();
 
         setupRenderState(fbWidth, fbHeight);
-        drawData.deIndexAllBuffers();
 
         for (int i = 0; i < drawData.getCmdListsCount(); i++) {
+            ByteBuffer idxbuffer = drawData.getCmdListIdxBufferData(i);
+            // copy buffer to prevent it being overwritten by the next call
+            idxbuffer =
+                ByteBuffer.allocateDirect(idxbuffer.remaining()).put(idxbuffer);
             ByteBuffer vtxbuffer = drawData.getCmdListVtxBufferData(i);
 
+            int idxsize = ImDrawData.sizeOfImDrawIdx();
             int stride = ImDrawData.sizeOfImDrawVert();
+
             vtxbuffer.position(0);
             glVertexPointer(2, GL_FLOAT, stride, vtxbuffer);
             vtxbuffer.position(8);
@@ -97,29 +102,27 @@ public class ImGuiImplGl2 {
             vtxbuffer.position(16);
             glColorPointer(4, GL_UNSIGNED_BYTE, stride, vtxbuffer);
 
-            int vtxoff = 0;
             for (int j = 0; j < drawData.getCmdListCmdBufferSize(i); j++) {
                 ImVec4 cr = drawData.getCmdListCmdBufferClipRect(i, j);
                 float c1x = (cr.x - clipoffx) * clipscalex;
                 float c1y = (cr.y - clipoffy) * clipscaley;
                 float c2x = (cr.z - clipoffx) * clipscalex;
                 float c2y = (cr.w - clipoffy) * clipscaley;
-
                 if (c2x <= c1x || c2y <= c1y)
                   continue;
-
                 glScissor(
                     (int)c1x, (int)(fbHeight - c2y),
                     (int)(c2x - c1x), (int)(c2y - c1y)
                 );
 
                 int tex = drawData.getCmdListCmdBufferTextureId(i, j);
-                int vtxcount = drawData.getCmdListCmdBufferElemCount(i, j);
+                int elemc = drawData.getCmdListCmdBufferElemCount(i, j);
+                int idxoff = drawData.getCmdListCmdBufferIdxOffset(i, j);
+                int type = idxsize == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
 
                 glBindTexture(GL_TEXTURE_2D, tex);
-                glDrawArrays(GL_TRIANGLES, vtxoff, vtxcount);
-
-                vtxoff += vtxcount;
+                idxbuffer.position(idxoff * idxsize);
+                glDrawElements(GL_TRIANGLES, elemc, type, idxbuffer);
             }
         }
 
