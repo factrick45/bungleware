@@ -3,8 +3,8 @@ package ihm.bungleware.mixin;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 
+import ihm.bungleware.event.EventHandler;
 import ihm.bungleware.module.Modules;
-import ihm.bungleware.module.visual.Esp;
 import ihm.bungleware.module.visual.Nightvision;
 
 import org.objectweb.asm.Opcodes;
@@ -27,9 +27,7 @@ public class GameRendererMixin {
     public void onRenderWorldPost(
         int anaglyphFilter, float tickDelta, long limitTime, CallbackInfo ci
     ) {
-        Esp esp = (Esp)Modules.getModule("ESP");
-        if (esp.isEnabled())
-            esp.onRenderWorldPost(tickDelta);
+        EventHandler.onRenderWorldPost(tickDelta);
     }
 
     @Shadow

@@ -15,13 +15,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
+import ihm.bungleware.event.EventHandler;
+import ihm.bungleware.event.RenderListener;
 import ihm.bungleware.module.Module;
 import ihm.bungleware.setting.*;
 import ihm.bungleware.utils.MathUtils;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class Esp extends Module {
+public class Esp extends Module implements RenderListener {
     private BoolSetting playersOnly =
         new BoolSetting("Players only", "Only apply to players", true);
 
@@ -33,10 +35,12 @@ public class Esp extends Module {
 
     @Override
     public void onDisabled() {
+        EventHandler.unregister(this);
     }
 
     @Override
     public void onEnabled() {
+        EventHandler.register(this);
     }
 
     private void renderEntity(Entity entity, float tickDelta) {
@@ -108,6 +112,7 @@ public class Esp extends Module {
         bb.offset(0.0, 0.0, 0.0);
     }
 
+    @Override
     public void onRenderWorldPost(float tickDelta) {
         GlStateManager.disableDepthTest();
         GlStateManager.disableTexture();
@@ -126,9 +131,5 @@ public class Esp extends Module {
         GlStateManager.enableDepthTest();
         GlStateManager.enableTexture();
         GlStateManager.disableBlend();
-    }
-
-    @Override
-    public void onTick() {
     }
 }
