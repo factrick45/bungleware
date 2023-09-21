@@ -5,6 +5,7 @@ import ihm.bungleware.module.Category;
 public class Visual extends Category {
     public Visual() {
         super("Visual");
+        add(new Chunks());
         add(new Esp());
         add(new Nightvision());
         add(new Xray());

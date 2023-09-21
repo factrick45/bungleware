@@ -15,14 +15,14 @@ import static imgui.flag.ImGuiWindowFlags.*;
 public class Hud implements ImGuiClient {
     public static final Hud INSTANCE = new Hud();
 
-    private String watermark;
+    private static final String WATERMARK =
+        "Bungleware " + Utils.getModVersion();
 
     // invokes static initialization
     public static void init() {
     }
 
     private Hud() {
-        watermark = "Bungleware " + Utils.getModVersion();
         ImGuiLoader.register(this);
     }
 
@@ -36,7 +36,7 @@ public class Hud implements ImGuiClient {
 
         ImGui.setNextWindowPos(vpos.x, vpos.y, ImGuiCond.Always);
         ImGui.begin("HudWatermark", winflags);
-        GuiUtils.textShadow(watermark);
+        GuiUtils.textShadow(WATERMARK);
         ImGui.end();
 
         ImGui.setNextWindowPos(
