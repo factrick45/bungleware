@@ -5,6 +5,7 @@ import java.util.List;
 
 import ihm.bungleware.setting.KeybindSetting;
 import ihm.bungleware.setting.Setting;
+import ihm.bungleware.utils.Chat;
 import ihm.bungleware.utils.Utils;
 
 public abstract class Module {
@@ -33,9 +34,17 @@ public abstract class Module {
     protected void addDefaultBind() {
         addSetting(new KeybindSetting("Keybind", this, (mod, info) -> {
                     if (!info.toggleOnRelease) {
-                        if (info.pressed)
-                            mod.toggle();
+                        if (info.pressed) {
+                            boolean e = mod.toggle();
+                            if (info.notify) {
+                                String es = e ?
+                                    "\u00a7aEnabled" : "\u00a7cDisabled";
+                                Chat.display(name + " - " + es);
+                            }
+                        }
                     } else {
+                        if (info.pressed && info.notify)
+                            Chat.display(name + " - \u00a7aPressed");
                         mod.setEnabled(info.pressed);
                     }
         }));

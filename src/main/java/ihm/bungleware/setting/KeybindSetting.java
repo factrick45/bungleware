@@ -14,6 +14,7 @@ import org.lwjgl.input.Keyboard;
 public class KeybindSetting extends AbstractSetting<Integer> {
     private boolean binding = false;
     private boolean toggleOnRelease = false;
+    private boolean notify = true;
     private Module parent;
     private BiConsumer<Module, Info> func;
 
@@ -21,15 +22,20 @@ public class KeybindSetting extends AbstractSetting<Integer> {
         public int key;
         public boolean pressed;
         public boolean toggleOnRelease;
+        public boolean notify;
     }
 
-    public KeybindSetting(String name, Module parent, BiConsumer<Module, Info> func) {
+    public KeybindSetting(
+        String name, Module parent, BiConsumer<Module, Info> func
+    ) {
         super(name, null, 0);
         this.parent = parent;
         this.func = func;
     }
 
-    public KeybindSetting(String name, int defkey, Module parent, BiConsumer<Module, Info> func) {
+    public KeybindSetting(
+        String name, int defkey, Module parent, BiConsumer<Module, Info> func
+    ) {
         super(name, null, defkey);
         this.parent = parent;
         this.func = func;
@@ -56,6 +62,15 @@ public class KeybindSetting extends AbstractSetting<Integer> {
             toggleOnRelease = !toggleOnRelease;
             Bungleware.instance().save();
         }
+        if (ImGui.isItemHovered())
+            ImGui.setTooltip("Disable when releasing the key");
+
+        if (ImGui.checkbox("Notify", notify)) {
+            notify = !notify;
+            Bungleware.instance().save();
+        }
+        if (ImGui.isItemHovered())
+            ImGui.setTooltip("Notify in chat when triggered");
     }
 
     public void onKey(int key, boolean pressed) {
@@ -69,6 +84,7 @@ public class KeybindSetting extends AbstractSetting<Integer> {
                     info.key = key;
                     info.pressed = pressed;
                     info.toggleOnRelease = toggleOnRelease;
+                    info.notify = notify;
 
                     func.accept(parent, info);
                 }
@@ -86,13 +102,15 @@ public class KeybindSetting extends AbstractSetting<Integer> {
     @Override
     public String serialize() {
         return Keyboard.getKeyName(getVal()) + ", " +
-            (toggleOnRelease ? "true" : "false");
+            (toggleOnRelease ? "true" : "false") + ", " +
+            (notify ? "true" : "false");
     }
 
     @Override
     public void deserialize(String string) {
-        String[] split = string.split(", ", 2);
+        String[] split = string.split(", ", 3);
         setVal(Keyboard.getKeyIndex(split[0]));
         toggleOnRelease = split[1].equals("true");
+        notify = split[2].equals("true");
     }
 }
