@@ -9,9 +9,8 @@ import ihm.bungleware.module.Module;
 import ihm.bungleware.setting.*;
 
 public class Vclip extends Module {
-    private FloatSetting distance =
-        new FloatSetting(
-            "Distance", "Distance to teleport", 3.0f, -10.0f, 10.0f);
+    private FloatSetting distance = new FloatSetting(
+        "Distance", "Distance to teleport", 3.0f, -10.0f, 10.0f);
 
     public Vclip() {
         super("Vclip", "Teleport vertically through floors");

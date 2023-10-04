@@ -6,6 +6,7 @@ public class Movement extends Category {
     public Movement() {
         super("Movement");
         add(new Flight());
+        add(new Nofall());
         add(new Vclip());
     }
 }
