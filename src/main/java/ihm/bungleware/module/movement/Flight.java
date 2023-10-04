@@ -1,8 +1,6 @@
 package ihm.bungleware.module.movement;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.Packet;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 import ihm.bungleware.module.Module;
 import ihm.bungleware.setting.*;
