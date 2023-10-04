@@ -7,6 +7,7 @@ public class Visual extends Category {
         super("Visual");
         add(new Chunks());
         add(new Esp());
+        add(new Freecam());
         add(new Nightvision());
         add(new Xray());
         add(new Zoom());

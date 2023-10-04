@@ -7,6 +7,7 @@
   ],
     "client": [
         "BlockMixin",
+        "ClientConnectionMixin",
         "ClientPlayNetworkHandlerMixin",
         "GameRendererMixin",
         "MinecraftClientAccessor",
