@@ -9,6 +9,7 @@ import ihm.bungleware.module.Category;
 import ihm.bungleware.module.Module;
 import ihm.bungleware.module.Modules;
 import ihm.bungleware.setting.Setting;
+import ihm.bungleware.ui.Hud;
 import ihm.bungleware.utils.Utils;
 
 /**
@@ -29,6 +30,7 @@ public class Save {
 
     public void save() {
         tree = new CfgTree();
+        saveHud();
         saveModules();
         try {
             Files.write(
@@ -46,7 +48,22 @@ public class Save {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        loadHud();
         loadModules();
+    }
+
+    private void saveHud() {
+        tree.setSection("hud");
+        tree.put("watermark", Hud.INSTANCE.enableWatermark ? "true" : "false");
+        tree.put("modules", Hud.INSTANCE.enableModules ? "true" : "false");
+    }
+
+    private void loadHud() {
+        tree.setSection("hud");
+        if (tree.get("watermark") != null)
+            Hud.INSTANCE.enableWatermark = tree.get("watermark").equals("true");
+        if (tree.get("modules") != null)
+            Hud.INSTANCE.enableModules = tree.get("modules").equals("true");
     }
 
     private void saveModules() {
@@ -71,9 +88,7 @@ public class Save {
                 // This module clearly isn't in the cfg file
                 if (tree.get("_enabled") == null)
                     continue;
-                mod.setEnabled(
-                    (tree.get("_enabled").equals("true")) ? true : false
-                );
+                mod.setEnabled(tree.get("_enabled").equals("true"));
                 for (Setting set : mod.getSettings()) {
                     if (tree.get(set.getName()) != null)
                         set.deserialize(tree.get(set.getName()));

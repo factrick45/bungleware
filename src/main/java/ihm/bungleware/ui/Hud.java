@@ -18,6 +18,9 @@ public class Hud implements ImGuiClient {
     private static final String WATERMARK =
         "Bungleware " + Utils.getModVersion();
 
+    public boolean enableWatermark = true;
+    public boolean enableModules = true;
+
     // invokes static initialization
     public static void init() {
     }
@@ -34,28 +37,32 @@ public class Hud implements ImGuiClient {
         ImVec2 vpos = ImGui.getMainViewport().getPos();
         ImVec2 vsize = ImGui.getMainViewport().getSize();
 
-        ImGui.setNextWindowPos(vpos.x, vpos.y, ImGuiCond.Always);
-        ImGui.begin("HudWatermark", winflags);
-        GuiUtils.textShadow(WATERMARK);
-        ImGui.end();
+        if (enableWatermark) {
+            ImGui.setNextWindowPos(vpos.x, vpos.y, ImGuiCond.Always);
+            ImGui.begin("HudWatermark", winflags);
+            GuiUtils.textShadow(WATERMARK);
+            ImGui.end();
+        }
 
-        ImGui.setNextWindowPos(
-            vpos.x + vsize.x, vpos.y,
-            ImGuiCond.Always, 1.0f, 0.0f
-        );
-        ImGui.setNextWindowSize(250.0f, 0.0f);
-        ImGui.begin("HudModules", winflags);
-        float posx = ImGui.getCursorPosX();
-        Modules.forEach((mod, i) -> {
-                if (!mod.isEnabled())
-                    return;
-                ImGui.setCursorPosX(
-                    posx + ImGui.getContentRegionAvailX() -
-                    ImGui.calcTextSize(mod.getName()).x
-                );
-                GuiUtils.textShadow(mod.getName(), GuiUtils.rainbow(i, 0.5f));
-        });
-        ImGui.end();
+        if (enableModules) {
+            ImGui.setNextWindowPos(
+                vpos.x + vsize.x, vpos.y,
+                ImGuiCond.Always, 1.0f, 0.0f
+            );
+            ImGui.setNextWindowSize(250.0f, 0.0f);
+            ImGui.begin("HudModules", winflags);
+            float posx = ImGui.getCursorPosX();
+            Modules.forEach((mod, i) -> {
+                    if (!mod.isEnabled())
+                        return;
+                    ImGui.setCursorPosX(
+                        posx + ImGui.getContentRegionAvailX() -
+                        ImGui.calcTextSize(mod.getName()).x
+                        );
+                    GuiUtils.textShadow(mod.getName(), GuiUtils.rainbow(i, 0.5f));
+                });
+            ImGui.end();
+        }
     }
 
     @Override

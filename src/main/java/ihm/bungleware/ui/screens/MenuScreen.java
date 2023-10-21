@@ -5,6 +5,7 @@ import ihm.bungleware.module.Category;
 import ihm.bungleware.module.Module;
 import ihm.bungleware.module.Modules;
 import ihm.bungleware.setting.Setting;
+import ihm.bungleware.ui.Hud;
 
 import imgui.ImGui;
 import imgui.flag.ImGuiCond;
@@ -62,15 +63,35 @@ public class MenuScreen extends ImGuiScreen {
         ImGui.end();
     }
 
+    private void toolbar() {
+        if (!ImGui.beginMainMenuBar())
+            return;
+
+        if (ImGui.beginMenu("Hud")) {
+            if (ImGui.menuItem("Watermark", "", Hud.INSTANCE.enableWatermark)) {
+                Hud.INSTANCE.enableWatermark = !Hud.INSTANCE.enableWatermark;
+                Bungleware.instance().save();
+            }
+            if (ImGui.menuItem("Modules", "", Hud.INSTANCE.enableModules)) {
+                Hud.INSTANCE.enableModules = !Hud.INSTANCE.enableModules;
+                Bungleware.instance().save();
+            }
+            ImGui.endMenu();
+        }
+
+        ImGui.endMainMenuBar();
+    }
+
     @Override
     public void renderGui() {
         // ImGui.showDemoWindow();
+        toolbar();
         int xoff = 10;
         for (Category cat : Modules.getCategories()) {
-            categoryWindow(cat, xoff, 10);
+            categoryWindow(cat, xoff, 40);
             xoff += 160;
         }
-        settingsWindow(xoff, 10);
+        settingsWindow(xoff, 40);
     }
 
     @Override
