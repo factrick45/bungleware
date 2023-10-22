@@ -53,14 +53,14 @@ public class Hud implements ImGuiClient {
             ImGui.begin("HudModules", winflags);
             float posx = ImGui.getCursorPosX();
             Modules.forEach((mod, i) -> {
-                    if (!mod.isEnabled())
-                        return;
-                    ImGui.setCursorPosX(
-                        posx + ImGui.getContentRegionAvailX() -
-                        ImGui.calcTextSize(mod.getName()).x
-                        );
-                    GuiUtils.textShadow(mod.getName(), GuiUtils.rainbow(i, 0.5f));
-                });
+                if (!mod.isEnabled())
+                    return;
+                ImGui.setCursorPosX(
+                    posx + ImGui.getContentRegionAvailX() -
+                    ImGui.calcTextSize(mod.getName()).x
+                );
+                GuiUtils.textShadow(mod.getName(), GuiUtils.rainbow(i, 0.5f));
+            });
             ImGui.end();
         }
     }

@@ -1,10 +1,5 @@
 package ihm.bungleware.module.visual;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -21,6 +16,7 @@ import ihm.bungleware.module.Module;
 import ihm.bungleware.setting.*;
 import ihm.bungleware.utils.MathUtils;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Esp extends Module implements RenderListener {

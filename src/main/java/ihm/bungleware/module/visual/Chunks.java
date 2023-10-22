@@ -1,7 +1,5 @@
 package ihm.bungleware.module.visual;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
@@ -14,6 +12,7 @@ import ihm.bungleware.module.Module;
 import ihm.bungleware.setting.*;
 import ihm.bungleware.utils.MathUtils;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Chunks extends Module implements RenderListener {
