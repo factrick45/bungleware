@@ -26,11 +26,15 @@ jobs:
         run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build
+      - name: Upload Jar Artifacts
+        uses: actions/upload-artifact@v3
         with:
           name: jars
           path: build/libs/
       - name: Create MultiMC Instance
         run: cd scripts; ./multimc.sh
+      - name: Upload MultiMC Artifacts
+        uses: actions/upload-artifact@v3
         with:
           name: multimc
           path: scripts/bungleware*.zip
