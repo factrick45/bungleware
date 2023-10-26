@@ -26,3 +26,11 @@ jobs:
         run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build
+        with:
+          name: jars
+          path: build/libs/
+      - name: Create MultiMC Instance
+        run: cd scripts; ./multimc.sh
+        with:
+          name: multimc
+          path: scripts/bungleware*.zip
